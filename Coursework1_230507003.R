@@ -1,0 +1,13 @@
+install.packages(prophet)
+library(prophet)
+data(co2)
+time(co2)
+time_values = time(co2)
+library(zoo)
+dates = as.Date(as.yearmon(time_values))
+WeatherDataframe = data.frame(ds = dates, y = as.numeric(co2))
+WeatherForecaster = prophet(WeatherDataframe)
+FutureDataFrame = make_future_dataframe(WeatherForecaster, 8, freq = "month", include_history = TRUE)
+Prediction = predict(WeatherForecaster, FutureDataFrame)
+plot(WeatherForecaster, Prediction)
+
